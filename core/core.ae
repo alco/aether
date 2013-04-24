@@ -1,0 +1,17 @@
+"""
+Used to map a stream of elements to a stream of { count, elem } tuples.
+
+Example:
+
+    > "abcd" -> count => []
+    [{0, 'a'}, {1, 'b'}, {2, 'c'}, {3, 'd'}]
+
+""" 
+:: <a> -> { int, a }
+func count(in: stream) {
+    var n = 0;
+    for elem in stream {
+        yield { n, elem }
+        n++
+    }
+}

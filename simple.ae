@@ -18,7 +18,7 @@ fn main() {
         est laborum.
         """
     
-    var computation = &strings.split(text, :newline) -> strings.reverse -> strings.toupper => print
+    var computation = &with strings { .split(text, :newline) -> .reverse -> .toupper => print }
 
     run(computation)
 }

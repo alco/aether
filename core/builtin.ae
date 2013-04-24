@@ -1,0 +1,12 @@
+"""
+Reverses a stream unless it is explicitly marked as infinite (in which case
+an error will be returned).
+
+Example:
+
+    > [1, 2, 3, 4] -> reverse => []
+    [4,3,2,1]
+
+"""
+:: <a> -> <a>
+reverse(in: stream)
