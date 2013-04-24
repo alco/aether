@@ -29,7 +29,7 @@ fn cat2(paths, opts) {
 
     # -n      Number the output lines, starting at 1.
     if opts["n"] { 
-        cat_lines() -> count => print_pair .
+        cat_lines() => count => print_pair .
     }
 
     # -b      Number the non-blank output lines, starting at 1.

@@ -7,11 +7,39 @@ Example:
     [{0, 'a'}, {1, 'b'}, {2, 'c'}, {3, 'd'}]
 
 """ 
-:: <a> -> { int, a }
-func count(in: stream) {
+:: <a> -> <{ int, a }>
+func count(stream) {
     var n = 0;
     for elem in stream {
         yield { n, elem }
         n++
     }
+}
+
+:: a, int -> { int, a }, int
+func count(in: elem, acc=0) {
+    { acc, elem }, acc + 1
+}
+
+:: (a -> bool), <a> -> <a>
+func filter(pred, stream) {
+    stream => filter(pred)
+}
+
+:: a, (a -> bool) -> a
+func filter(in: elem, pred) {
+    if !pred(elem) {
+        discard
+    } 
+    elem
+}
+
+:: <a> -> a
+func sum(stream) {
+    stream => sum
+}
+
+:: (Num a): a, a -> a
+func sum(in: elem, acc=default(elem)) {
+    acc + elem
 }
