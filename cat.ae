@@ -1,0 +1,48 @@
+module cat
+
+import cli
+
+:: <string>[, int] -> <string>
+fn cat_chunks(in: paths, chunk_size=512) {
+    paths -> File(&1).chunks(chunk_size) ->>
+}
+
+const CHUNK_SIZE = 512
+
+:: <string> -> ()
+fn cat1(paths) {
+    cat_chunks(paths, CHUNK_SIZE) => print .
+    # - OR -
+    # paths -> cat_chunks(CHUNK_SIZE) => print .
+}
+
+:: <string>, map -> ()
+fn cat2(paths, opts) {
+    ## Various options of the UNIX cat
+
+    var cat_lines = fn() :: () -> <string> {
+        paths -> File(&1).lines() ->>
+    }
+
+    print_pair = fn({number, line}) { print(number, line) }
+
+    # -n      Number the output lines, starting at 1.
+    if opts["n"] { 
+        cat_lines() -> count => print_pair .
+    }
+
+    # -b      Number the non-blank output lines, starting at 1.
+    if opts["b"] {
+        cat_lines() => count_if(len(&1) != 0) => print_pair .
+    }
+
+    # -s      Squeeze multiple adjacent empty lines, causing the output to be single spaced.
+    if opts["s"] {
+        cat_lines() => squash_if(len(&1) == len(&2) == 0) => print .
+    }
+}
+
+fn main(args) {
+    var flags, args = cli.parse(args)
+    cat2(args, flags)
+}
