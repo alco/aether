@@ -78,3 +78,11 @@ func iterate_recursive(f, initial) {
     yield initial 
     f(initial)  # tail-call
 }
+
+:: a, bool, (a -> bool) -> bool
+func ifgate(in: elem, acc=true, pred) {
+    if !pred(elem) {
+        abort false
+    }
+    true
+}

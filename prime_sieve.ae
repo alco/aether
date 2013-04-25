@@ -1,0 +1,12 @@
+module prime_sieve
+
+
+func sieve() {
+    var naturals = iterate((+1), 2)
+    var primes = naturals => ^(x, acc=[]) {
+        if acc => ifgate(^{ x % &1 == 0 }) {
+            yield x, conj(acc, x)
+        }
+        acc
+    }
+}
