@@ -1,10 +1,6 @@
 module filter
 
-func filter_blanks(text) {
-    text.lines() => filter(^{ len(&1) > 0 })
-}
-
-func main() {
+func filter_blanks() {
     var text = %I"""
         Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
@@ -19,5 +15,16 @@ func main() {
 
         """
 
-    ! filter_blanks(text) -> print
+    ! text.lines() => filter(^{ len(&1) > 0 }) -> print
+}
+
+func filter_nums() {
+    var xs = iterate((+1), 1)
+    var ys = iterate((+1), 2)
+
+    weld(xs, ys) -> filter(^{ &1 + &2 == 3 })
+}
+
+func primes() {
+    iterate((+1), 2)  
 }

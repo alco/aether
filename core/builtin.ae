@@ -10,3 +10,31 @@ Example:
 """
 :: <a> -> <a>
 reverse(in: stream)
+
+"""
+Adds element `elem` to collection `col`. Used by `conj`.
+
+Example:
+
+    > conj([1, 2], 3)
+    [1,2,3]
+
+"""
+:: a, b -> b
+conj_builtin(col, elem)
+
+###
+
+"""
+Underlying function for the vector product operator.
+
+Example:
+
+    a = (1, 2, 3)
+    b = (4, 5, 6)
+    > a • b
+    (4,10,18)
+
+"""
+:: vec<a, N>, vec<a, N> -> a
+dot(a, b)

@@ -41,5 +41,40 @@ func sum(stream) {
 
 :: (Num a): a, a -> a
 func sum(in: elem, acc=default(elem)) {
-    acc + elem
+    elem + acc
+}
+
+:: <a>, a, (a, b -> b) -> b
+func reduce(stream, initial, f) {
+    stream => reduce(initial, f)
+}
+
+:: a, a, (a, b -> b) -> b
+func reduce(in: elem, acc=default(elem), f) {
+    f(elem, acc)
+}
+
+:: <a>, b -> b
+func into(stream, col) {
+    stream => reduce(col, conj)
+}
+
+:: a, b -> a
+func conj(acc: col, in: elem) {
+    conj_builtin(col, elem)
+}
+
+:: (a -> a), a -> a
+func iterate(f, initial) {
+    var last = initial
+    for {
+        yield last 
+        last = f(last)
+    }
+}
+
+:: (a -> a), a -> a
+func iterate_recursive(f, initial) {
+    yield initial 
+    f(initial)  # tail-call
 }
