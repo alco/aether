@@ -1,0 +1,32 @@
+"""
+Returns a sum of squares of num's decimal digits.
+"""
+:: int -> int
+func square_digits(num) {
+    var sum = 0, quot = num, digit int
+    while quot != 0 {
+        quot, digit = divmod(quot, 10)
+        sum += digit * digit
+    }
+}
+
+"""
+Same thing, tail-recursive
+"""
+:: int, int -> int
+func square_digits(num, sum=0) {
+    if num == 0 {
+        sum
+    } else {
+        var quot, digit = divmod(num, 10)
+        square_digits(quot, sum + digit*digit)
+    }
+}
+
+"""
+Example usage. Filters out input stream of nums leaving only those that are
+smaller than the sum of their digits' squares.
+"""
+func count_small(in: stream) {
+    len(stream -> filter ^(x) { x < square_digits(x) })
+}
