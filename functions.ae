@@ -1,0 +1,4 @@
+fn main() {
+    var composition = (*10) . (+2) 
+    print $ composition 3  # 50
+}
