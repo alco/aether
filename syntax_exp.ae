@@ -1,0 +1,46 @@
+# Method chaining vs iteration
+
+func syntax_exp() {
+    var f1 = ^{ math.asin(math.sqrt(&1)) / math.pi * 180 }
+    var f2 = ^{ &1.sqrt().asin() / math.pi * 180 }
+    var f3 = ^{ &1.sqrt.asin / pi * 180 }
+    var f4 = ^{ &1 .sqrt .asin / pi * 180 }
+    var f5 = ^{ math.asin(&1.sqrt) / math.pi * 180 }
+    var f6 = ^{ &1 -> sqrt -> asin -> (/ math.pi * 180) }
+    var f7 = ^{ &1 sqrt asin / math.pi * 180 }
+    var f8 = ^{ asin sqrt &1 / math.pi * 180 }
+}
+
+func syntax_exp2() {
+    var f1 = ^{ strings.reverse(strings.toupper(strings.replace(strings.tolower(str), "abc", "bcd"))) }
+    var f2 = ^{ str.tolower.replace("abc", "bcd").toupper.reverse }
+    var f3 = ^{ str .tolower .replace("abc", "bcd") .toupper .reverse }
+    var f4 = ^{ str -> .tolower -> .replace("abc", "bcd") -> .toupper -> .reverse }
+    var f5 = ^{ strings.reverse strings.toupper strings.replace (strings.tolower str) "abc" "bcd" }
+}
+
+func syntax_exp3() {
+    for p = each point in set {
+        var c = scale_point(p)
+        var z = complex(0, 0)
+        while |z|^2 < 4 and iteration < MAX_ITER {
+            z = z^2 + c 
+        }
+        var color = iteration
+        plot(z, color)
+    }
+
+    # ...
+
+    points -> fn(p) {
+        var c = scale_point(p)
+        var z = complex(0, 0)
+        z = loop({z, c} -> ^(z, c) {
+            z^2 + c, c
+        } -> limit ^(z, c) { |z|^2 < 4 and count < MAX_ITER })
+
+        var color = count
+        plot(p, color)
+    }
+}
+
