@@ -44,3 +44,16 @@ func syntax_exp3() {
     }
 }
 
+:: string -> int
+func parseInt(str) {
+    # ...
+}
+
+:: string -> int
+func parseIntAbs(str) {
+    str -> parseInt -> math.abs
+}
+
+func parseIntAbs = parseInt -> math.abs
+func parseIntAbs = parseInt .abs
+func parseIntAbs = math.abs parseInt
