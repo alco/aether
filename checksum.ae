@@ -70,3 +70,26 @@ func adler32_for(bytes) {
     (b << 16) | a
 }
 
+func adler32_gen(in: stream) {
+  pre:
+    var a = 1, b = 0
+  body:
+    stream => ^(byte) {
+        a = (a + byte) % MODULO
+        b = (b + a) % MODULO
+    }
+  post:
+    (b << 16) | a
+}
+
+func adler32_gen_usage() {
+    var stream = lazy_stream(byte)
+    var adler = (stream => adler32_gen)
+
+    "Hello world" => stream
+    "This is the end." => stream
+    stream.end()
+
+    # Realize the stream
+    *adler
+}
