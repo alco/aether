@@ -1,0 +1,72 @@
+module chechsum
+
+var table [256]uint32
+
+func crc32_initTable() {
+    range(table)  # same as 0..255
+    -> uint32
+    -> repeat_apply(8, &1, ^(word) {
+        if word&1 == 1 {
+            (word >> 1) ^ 0xEDB88320
+        } else {
+            word >> 1
+        }
+    }) => table
+}
+
+func crc32(str) {
+    ^(str.bytes() => ^(b, acc: crc=^uint32(0)) {
+        table[byte(crc)^b] ^ (crc >> 8)
+    })
+}
+
+/*
+const int MOD_ADLER = 65521;
+
+uint32_t adler32(unsigned char *data, int32_t len) /* where data is the location of the data in physical memory and
+                                                       len is the length of the data in bytes */
+{
+    uint32_t a = 1, b = 0;
+    int32_t index;
+
+    /* Process each byte of the data in order */
+    for (index = 0; index < len; ++index)
+    {
+        a = (a + data[index]) % MOD_ADLER;
+        b = (b + a) % MOD_ADLER;
+    }
+
+    return (b << 16) | a;
+}
+*/
+
+const MODULO = 65521
+
+func adler32(bytes) {
+    bytes
+    => reduce({1, 0}, ^(byte, acc: {a, b}) {
+        a = (a + byte) % MODULO
+        b = (b + a) % MODULO
+        {a, b}
+    }
+    -> ^(a, b) { (b << 16) | a }
+}
+
+func adler32_mut(bytes) {
+    var a = 1, b = 0
+    bytes => ^(byte) {
+        a = (a + byte) % MODULO
+        b = (b + a) % MODULO
+    }
+    (b << 16) | a
+}
+
+func adler32_for(bytes) {
+    var a = 1, b = 0
+    for byte in bytes {
+        a = (a + byte) % MODULO
+        b = (b + a) % MODULO
+    }
+    (b << 16) | a
+}
+
