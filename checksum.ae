@@ -20,6 +20,20 @@ func crc32(str) {
     })
 }
 
+func crc32_mut(bytes) {
+    var crc = ^uint32(0)
+    bytes => ^(byte) {
+        crc = table[byte(crc)^b] ^ (crc >> 8)
+    }
+}
+
+func crc32_for(bytes) {
+    var crc = ^uint32(0)
+    for b in bytes {
+        crc = table[byte(crc)^b] ^ (crc >> 8)
+    }
+}
+
 /*
 const int MOD_ADLER = 65521;
 
