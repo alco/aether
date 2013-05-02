@@ -88,8 +88,17 @@ func adler32_gen_usage() {
 
     "Hello world" => stream
     "This is the end." => stream
-    stream.end()
+    close(stream)
 
     # Realize the stream
     *adler
+}
+
+func adler32_file(path) {
+    var f = File(path)
+    f.bytes() => adler32_gen
+}
+
+func adler32_files(paths) {
+    paths -> File -> .bytes() =>> adler32_gen
 }
