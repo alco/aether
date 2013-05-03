@@ -1,0 +1,19 @@
+import strings
+
+func compound_string_op(str) {
+    str
+    .tolower
+    .replace("abc", "bcd")
+    .toupper
+    .reverse()
+}
+
+func compound_string_op2(str) {
+    str
+    -> .tolower
+    -> .replace("abc", "bcd")
+    -> .toupper
+    -> .reverse
+    ;
+}
+
