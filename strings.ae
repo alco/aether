@@ -17,3 +17,11 @@ func compound_string_op2(str) {
     ;
 }
 
+func bytes_to_string(bytes) {
+    var buf = copy(bytes)
+    var str = string(buf)
+
+    buf[0] = 1 # compile error
+
+    str
+}
