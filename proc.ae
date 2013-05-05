@@ -1,0 +1,18 @@
+import proc
+
+func git_rev_parse() {
+    var status, output, err = proc.run("git rev-parse HEAD")
+    if status != 0 {
+        print(error)
+    } else {
+        print(output)
+    }
+}
+
+func pipe() {
+    var status, output, err = proc.run("git rev-parse HEAD | git show")
+}
+
+func native_pipe() {
+    var status, output, err = proc.pipe("git rev-parse HEAD", "git show")
+}
