@@ -16,3 +16,15 @@ func pipe() {
 func native_pipe() {
     var status, output, err = proc.pipe("git rev-parse HEAD", "git show")
 }
+
+func redirect_pipe() {
+    var p = proc.newProc("git rev-parse HEAD")
+    var q = proc.newProc("git show")
+
+    var errStream = stream()
+    errStream.append(p.stderr)
+    errStream.append(q.stderr)
+    errStream.outputTo(<some file>)
+
+    proc.pipe(p, q).output()
+}
