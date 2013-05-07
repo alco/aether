@@ -25,3 +25,25 @@ func bytes_to_string(bytes) {
 
     str
 }
+
+module strings
+
+:: string -> string
+func lowercase(in: str) {
+    str.chars() -> char_to_lowercase
+}
+
+:: string -> string
+func uppercase(in: str) {
+    str.chars() -> char_to_uppercase
+}
+
+:: string -> string
+func reverse(in: str) {
+    reverse(str.chars())
+}
+
+:: string -> string
+func reverse_bytes(in: str) {
+    reverse(str.bytes())
+}
