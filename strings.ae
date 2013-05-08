@@ -47,3 +47,32 @@ func reverse(in: str) {
 func reverse_bytes(in: str) {
     reverse(str.bytes())
 }
+
+:: string, string -> bool
+func has_prefix(in: prefix <> _, prefix) { true }
+func has_prefix(in: _, _) { false }
+
+:: string, string -> bool
+func has_suffix(in: _ <> suffix, suffix) { true }
+func has_suffix(in: _, _) { false }
+
+:: string, string -> bool
+func contains(in: str, substr) {
+    _contains(str, substr, 0)
+}
+
+func _contains(str, substr, ln) {
+    if ln == len(substr) {
+        return true
+    }
+
+    if ln + len(str) < len(substr) {
+        return false
+    }
+
+    if str[0] == substr[ln] {
+        _contains(str[1:], substr, ln+1)
+    } else {
+        _contains(str[1:], substr, 0)
+    }
+}
