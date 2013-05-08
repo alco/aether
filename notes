@@ -1,0 +1,6 @@
+* Streams vs UNIX pipes (main difference):
+  pipes work when data is pushed into them (they produce output regardless of whether our desire to consume it)
+  stream are pull-based (they consume input when we ask for output)
+
+* We can force-push into a stream in which case it will store the output for later
+  (helpful when trying to ensure certain performance guarantees)
