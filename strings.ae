@@ -76,3 +76,6 @@ func _contains(str, substr, ln) {
         _contains(str[1:], substr, 0)
     }
 }
+
+func bytes() # built-in?
+func chars() # built-in?
