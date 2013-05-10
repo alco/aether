@@ -38,3 +38,17 @@ Example:
 """
 :: vec<a, N>, vec<a, N> -> a
 dot(a, b)
+
+"""
+Underlying function for the vector add operator.
+
+Example:
+
+    a = (1, 2)
+    b = (3, 4)
+    > a + b
+    (4,6)
+
+"""
+:: vec<a, N>, vec<a, N> -> vec<a, N>
+add(v1, v2)
