@@ -52,3 +52,17 @@ Example:
 """
 :: vec<a, N>, vec<a, N> -> vec<a, N>
 add(v1, v2)
+
+"""
+Underlying function for the vector subtract operator.
+
+Example:
+
+    a = (1, 2)
+    b = (3, 4)
+    > a - b
+    (-2,-2)
+
+"""
+:: vec<a, N>, vec<a, N> -> vec<a, N>
+sub(v1, v2)
