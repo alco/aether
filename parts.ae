@@ -1,0 +1,23 @@
+func parts1() {
+    var infile = File("input.txt")
+    var outfile1 = File("out1.txt", :w),
+        outfile2 = File("out2.txt", :w)
+
+    var lines_stream = infile.lines()
+    var out1, out2 = partition(lines_stream, fn(str) { str.contains("Hello") })
+    outfile1.append(out1)
+    outfile2.append(out2)
+}
+
+func parts1_syntactic() {
+    var infile = File("input.txt")
+    var outfile1 = File("out1.txt", :w),
+        outfile2 = File("out2.txt", :w)
+
+    infile.lines()
+    => partition(fn(str) { str.contains("Hello") })
+    => mux {
+        1 -> outfile1
+        2 -> outfile2
+    }
+}

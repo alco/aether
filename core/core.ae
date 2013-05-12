@@ -6,7 +6,7 @@ Example:
     > "abcd" -> count => []
     [{0, 'a'}, {1, 'b'}, {2, 'c'}, {3, 'd'}]
 
-""" 
+"""
 :: <a> -> <{ int, a }>
 func count(stream) {
     var n = 0;
@@ -30,7 +30,7 @@ func filter(pred, stream) {
 func filter(in: elem, pred) {
     if !pred(elem) {
         discard
-    } 
+    }
     elem
 }
 
@@ -68,14 +68,14 @@ func conj(acc: col, in: elem) {
 func iterate(f, initial) {
     var last = initial
     for {
-        yield last 
+        yield last
         last = f(last)
     }
 }
 
 :: (a -> a), a -> a
 func iterate_recursive(f, initial) {
-    yield initial 
+    yield initial
     f(initial)  # tail-call
 }
 
@@ -85,4 +85,22 @@ func ifgate(in: elem, acc=true, pred) {
         abort false
     }
     true
+}
+
+:: <a>, (a -> bool) -> <a>, <a>
+func partition(in: stream, fn) {
+    # FIXME: parallelize
+    do_partition(stream, fn, <>, <>)
+}
+
+func do_partition(<>, fn, out1, out2) {
+    out1, out2
+}
+
+func do_partition(< h | t >, fn, out1, out2) {
+    if fn(h) {
+        do_partition(t, fn, < h | out1 >, out2)
+    } else {
+        do_partition(t, fn, out1, < h | out2 >)
+    }
 }
