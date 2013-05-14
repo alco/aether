@@ -1,0 +1,15 @@
+func parallel_pi(n) {
+    func term(k float) {
+        4 * math.pow(-1, k) / (2*k + 1)
+    }
+
+    range(0, n+1) -> float -> term(k) => (+)
+
+    parallel {
+        range(0, n+1) -> float -> term(k) => (+)
+    }
+
+    parallel(range(0, n+1) -> float -> term(k), 0.0, fn(x, acc) {
+        x + acc
+    })
+}
