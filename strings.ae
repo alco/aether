@@ -30,12 +30,12 @@ module strings
 
 :: string -> string
 func lowercase(in: str) {
-    str.chars() -> char_to_lowercase
+    utf8_string_to_lowercase(str)
 }
 
 :: string -> string
 func uppercase(in: str) {
-    str.chars() -> char_to_uppercase
+    utf8_string_to_uppercase(str)
 }
 
 :: string -> string
