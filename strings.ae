@@ -76,3 +76,7 @@ func _contains(str, substr, ln) {
 
 func bytes() # built-in?
 func chars() # built-in?
+
+func split(in: str, index) {
+    str.chars() => take(index + 1) => string()
+}
