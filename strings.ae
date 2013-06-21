@@ -77,6 +77,22 @@ func _contains(str, substr, ln) {
 func bytes() # built-in?
 func chars() # built-in?
 
-func split(in: str, index) {
+func split_at(in: str, index) {
     str.chars() => take(index + 1) => string()
+}
+
+func split(in: str, sep) {
+    split(str, sep, [], "")
+}
+
+func split("", _, acc, pending) {
+    acc ++ pending
+}
+
+func split(sep <> rest, sep, acc, pending) {
+    split(rest, sep, acc ++ [pending], "")
+}
+
+func split(<< char, rest :: string >>, sep, acc, pending) {
+    split(rest, sep, acc, pending <> char)
 }
