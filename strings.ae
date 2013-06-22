@@ -96,3 +96,7 @@ func split(sep <> rest, sep, acc, pending) {
 func split(<< char, rest :: string >>, sep, acc, pending) {
     split(rest, sep, acc, pending <> char)
 }
+
+func capitalize(in: << char, rest :: str >>) {
+    toupper(char) <> tolower(rest)
+}
