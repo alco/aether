@@ -1,0 +1,95 @@
+// Rename all files that have extension $ext_from to $ext_to in $dir recursively
+fn rename_ext(dir, ext_from, ext_to) {
+    os.walk(dir, :depth)
+    => filter(fn(x) {
+        os.type(x) == :regular and match(x, ".#{ext_from}", :right)
+    })
+    => fn(x) {
+        os.move(x, re.sub(x, r"\.#{ext_from}$", ".#{ext_to}"))
+    };
+}
+
+// Shorter version with more complicated os.walk implementation
+fn rename_ext(dir, ext_from, ext_to) {
+    os.walk(dir, type: :f, iname: "*.#{ext_from}")
+    => fn(x) {
+        var target = re.sub(r"\.#{ext_from}$"i, "." + ext_new)
+        os.move(x, x[:rfind(x, ".")+1] + ext_to)
+    };
+}
+
+// shell alternative
+find $dir -type f -name "*.old_ext" |
+while read file; do
+    mv $file ${file#.old_ext}.old_new"
+done
+
+
+fn filtermap_example() {
+    strings
+    => filtermap(fn(x) {
+        var range = match(x, r"\.#{ext_from}$"i);
+        ( range.pos >= 0, (x, range) )
+    }
+    => fn((x, range)) {
+        os.move(x, x[:range.pos+1] + ext_to)
+    }
+}
+
+////////////////////////////////////////
+
+fn name_filter(in: paths, ext_from) {
+    paths
+    => filtermap(fn(x) {
+        var range = match(x, r"\.#{ext_from}$"i);
+        range.pos >= 0, (x, range)
+    }
+}
+
+ext_from="old_ext"
+ext_to="new_ext"
+
+find(".", type=:f, depth=true)
+=> name_filter(ext_from)
+=> fn((x, range)) {
+    os.move(x, x[:range.pos+1] + ext_to)
+};
+
+////////////////////////////////////////
+
+ext_from=".old_ext"
+ext_to=".new_ext"
+
+find(".", name="*#{ext_from}", type=:f, depth=true)
+-> fn(path) {
+    var new_path = re.sub(r"#{re.escape ext_from}$", path, ext_to)
+    os.move(path, new_path)
+}
+
+////////////////////////////
+
+fn find(dir, predicates, actions) {
+    listdir(dir) => filter(fn(x) {
+        var info = os.stat(x)
+        bool isdir = is_dir?(info)
+
+        if isdir and not :depth {
+            find(x, predicates)
+        }
+
+        predicates(info)
+
+        if isdir and :depth {
+            find(x, predicates)
+        }
+    }) -> actions
+}
+
+
+/////////////////////////////
+
+import io
+
+fn main() {
+    io.readln() => reverse => print
+}
