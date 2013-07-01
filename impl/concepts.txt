@@ -1,0 +1,36 @@
+* -> drives implicit enumeration
+* => drives implicit reduction
+* <source> -> or => ... -> <mapping>
+* <source> -> or => ... => <sink>
+* <source> can be any of the following:
+  - an aggregate (stream, list, array, other containers)
+  - a separate process working as a generator
+  - a buffered generator (allowing to enumerate it more than once)
+  - an OS process
+  - a special stream type (blocking stream, event stream, etc.)
+* atomic values are implicitly converted to streams of one element
+  - an atomic value is one of: atom, scalar, string, vector, tuple
+* some atomic values can be converted to longer streams,
+  e.g. string -> stream of bytes (or stream of codepoints)
+       vector -> stream of coordinates
+* all of the components that take part in a given stream enumeration form a single higher level component
+* the compiler can optimize a single component as a whole,
+  inlining and eliminating operations as long as the semantics stays the same
+* errors encountered during an enumeration flow in a separate channel back to the caller
+* the caller may choose to ignore errors (then they propagate to the top of the call stack)
+* the caller may choose to setup condition handlers for errors (see Common Lisp conditions; Rust)
+* side effects inside an enumeration occur at known synchronization points
+* side-effect-less enumeration can be optimizied more aggresively by the compiler
+* the language evaluates expressions eagerly, but can support lazy streams
+* enumeration can be done sequentially, concurrently, or in parallel -- the interface remains the same
+
+>> Example <<
+
+// map all elements of an array to their respective squares, in parallel
+let nums = array(1..100)
+let squares 
+         = nums => *parallel-mapping* -> fn(x) { x * x } => array()
+let squares_sequential 
+         = nums -> fn(x) { x * x } => array()
+
+let squares = nums => group(50) -> count -> fn(i, g) { i, spawn(square_array(g)) } => merge_in_order
