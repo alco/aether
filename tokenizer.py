@@ -120,7 +120,7 @@ if __name__ == '__main__':
     import sys
 
     toker = tokenizer()
-    line = sys.stdin.readline()
+    line = sys.stdin.read()
 
     for tok in toker(line):
         print tok
