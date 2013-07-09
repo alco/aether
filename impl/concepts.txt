@@ -1,5 +1,9 @@
 * -> drives implicit enumeration
 * => drives implicit reduction
+* implicit enumeration allows the compiler to generate more optimal code for a loop
+  - better vectorization
+  - better abstraction (hiding loop implementation details)
+  - looser coupling between components of an algorithm
 * <source> -> or => ... -> <mapping>
 * <source> -> or => ... => <sink>
 * <source> can be any of the following:
@@ -24,13 +28,27 @@
 * the language evaluates expressions eagerly, but can support lazy streams
 * enumeration can be done sequentially, concurrently, or in parallel -- the interface remains the same
 
->> Example <<
+
+>> Example: Parallel map <<
 
 // map all elements of an array to their respective squares, in parallel
 let nums = array(1..100)
-let squares 
-         = nums => *parallel-mapping* -> fn(x) { x * x } => array()
 let squares_sequential 
          = nums -> fn(x) { x * x } => array()
+let squares 
+         = parallel(nums) -> fn(x) { x * x } => array()
 
-let squares = nums => group(50) -> count -> fn(i, g) { i, spawn(square_array(g)) } => merge_in_order
+* That is, the mechanics of enumeration are determined entirely by the source.
+  The code shape is independent of the what is going on under the hood.
+
+
+>> Example: List monad <<
+
+let nums = array(1, 2, 3)
+let perms1 = list_monad(nums) => array()  // [(1,), (2,), (3,)]
+let perms2 = list_monad(nums, nums) => array()  // [(1,1), (1,2), (1,3), (2,1), (2,2), (2,3), (3,1), (3,2), (3,3)]
+let perms3 = list_monad(fn() {
+    let x = nums
+    let y = nums
+    return (x, y)
+}) => array()
