@@ -52,3 +52,29 @@ let perms3 = list_monad(fn() {
     let y = nums
     return (x, y)
 }) => array()
+
+
+## Important points of a new language ##
+
+* Controlled side effects and mutability lead to
+  1) better abstraction
+  2) better optimization opportunities
+* Mutable state should be employed locally, for performance goals
+* Encoding state in a few established "places" helps make program automatically parallelizable/distributable
+
+* Conditions provide greater flexibility than exceptions and potentially better code reuse
+* Standard error propagation mechanism frees the programmer of boiler-plate, helps write code that fails early
+* Freeing ordinary code from error handling provides an abstraction that helps in separation of concerns
+  (helps getting rid of ad-hoc and hence poor-quality error reporting)
+
+* Generic programming helps in code reuse
+* Operator overloading helps keep the syntax under control
+* Compiler should be able to reason about types and traits to provide good optimization
+
+* Boilerplate can be eliminated using macros
+* Macros don't have to be the same language (think scripting/embedded language)
+
+* Iteration should be a first-class abstraction to provide
+  1) conciseness
+  2) separation of concerns
+  3) performance
