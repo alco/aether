@@ -24,7 +24,7 @@ func syntax_exp3() {
         var c = scale_point(p)
         var z = complex(0, 0)
         while |z|^2 < 4 and iteration < MAX_ITER {
-            z = z^2 + c 
+            z = z^2 + c
         }
         var color = iteration
         plot(z, color)
@@ -57,3 +57,95 @@ func parseIntAbs(str) {
 func parseIntAbs = parseInt -> math.abs
 func parseIntAbs = parseInt .abs
 func parseIntAbs = math.abs parseInt
+
+
+// Dataflow
+
+:: int, int, int -> Color, int
+func routine(x, y, z) {
+    // ...
+}
+
+// Diagram:
+
+      x y z
+      | | |
+    +-^-^-^----+
+    | routine  |
+    +-.-.------+
+   ___/ \_______
+  /             \
+  |             |
+color        distance
+  |             |
++-^---+     +---^-+
+| op1 |     | op2 |
++-.---+     +-.---+
+  \____   ____/
+       \ /
+       | |
+     +-^-^-+
+     | add |
+     +-.---+
+       |
+     result
+       |
+       *
+
+
+      x y z
+      | | |
+    +-^-^-^----+
+    | routine  |
+    +-.-.------+         +-----+
+      | +----- color --->| op1 |--+
+      |                  +-----+  |   +-----+
+      |                           +-->|     |
+      |                               | add |-->result
+      |                           +-->|     |
+      |                  +-----+  |   +-----+
+      +------ distance ->| op2 |--+
+                         +-----+
+
+// 1. Traditional approach
+func main() {
+    // The relationship between functions is not as clear
+    // as in the diagram
+    color, d = routine(1, 2, 3)
+    result = add(op1(color), op2(d))
+
+    // Although can be slightly improved
+    color, d = routine(1, 2, 3)
+    result = add(
+        op1(color),
+        op2(d)
+    )
+}
+
+// 2. Add some sugar
+func main() {
+    // Not clear where data is coming from and where it goes
+    result =
+      routine(1, 2, 3)
+      -> { op1(color)
+           op2(distance) }
+      -> add
+}
+
+// 3. ASCII art
+func main() {
+    // Not robust at all
+    color, d = routine(1, 2, 3)
+      |    |
+     op1  op2
+      |    |
+  add(_,   _) -> result
+}
+
+// 4. Horizontal approach
+func main() {
+    routine(1, 2, 3) --> (op1, op2) --> add --> result
+
+    // more formal
+    routine(1, 2, 3) --> fn(color, d) --> (op1(color), op2(d)) --> add(*) --> result
+}
