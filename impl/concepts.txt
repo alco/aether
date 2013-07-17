@@ -78,3 +78,115 @@ let perms3 = list_monad(fn() {
   1) conciseness
   2) separation of concerns
   3) performance
+
+* Making sense of operator overloading:
+
+    a + b
+
+  The expression above should make sense for the following types of a and b:
+  - integer
+  - float
+  - rational
+  - vector
+  - matrix
+  - complex number
+  - decimal float
+  - any other type with addition defined
+
+  What if the types of the operands do not match?
+  a) define type promotion rules
+  b) forbid automatic conversion
+  c) look at the type of the whole expr (whether by casting or by assigning to a variable)
+     and convert the operands accordingly
+
+  The general guideline is: the result type is specified (by annotation or
+  assignment) and the compiler should use it as a hint. Specifying conversion
+  for each operand is redundant because the types of the operands define the
+  semantics of the operations.
+
+  For the cases of different operand types, it should be possible to specify a
+  promotion context, inside which all types will be promoted to the specified
+  type prior to performing the operations.
+
+  Specifically, in this example
+       
+      var result complex
+      var a float
+      var b int
+      result = a / b
+
+  the code does not compile because the type the "a/b" expression is not complex.
+
+  However, this could work
+
+      result = a / b :: complex
+
+  if there is a defined conversion from float to compex.
+
+  ---------------
+
+  What about this:
+
+      var result float
+      var a, b int
+      result = a / b
+
+  In this case, we cannot automatically promote "a / b" because the user
+  might want the truncated division. This code won't compile because
+  assigning int to float is bad.
+
+  ----------------
+
+  What if the user does want floating-point division?
+
+      result = float(a / b)
+
+  Here, instead of promoting one operand to float, we denote a "floating point context", inside which
+  all values will be converted to float. Does it make sense? Could be confusing in practice.
+
+      var a, b complex
+      result = float(a + b)  // error: no conversion from complex to float
+
+      var a, b float
+      var result int
+      result = a / b         // error: automatic truncation to int not allowed
+      result = a / b :: int  // OK, result truncated
+
+      result = int(a / b)    // OK?, integer division
+
+      var ai, bi int
+      ai = a :: int
+      bi = b :: int
+      result = ai / bi       // OK, integer division
+
+  What about
+
+      var a, b, c float
+      var result int
+      result = (a + b * c) / (2 * c) :: int   // OK, result truncated
+      result = int((a + b*c) / (2*c))         // all converted to int prior to evaluation
+
+      result = ceil((a + b*c) / (2*c)) :: int // OK, wraps up before truncating to int
+      result = int(a + ceil(2/c)) :: int      // OK, "2/c" produces a float
+
+      var a int
+      var b float
+
+      c = int(a / b)          // integer division
+      result = a + c :: float
+
+      ** vs **
+
+      result = float32(a + a / int32(b))
+
+  ** Nested contexts should be forbidden -- too much confusion.
+
+      result = float(a + int(a / b))        // OK?
+      result = float(a + float(a / b):int)  // OK?, result of division truncated
+      result = float(a + a / b:int)    // OK, b truncated before float division
+      result = a + a / b:int :: float  // OK, integer ops followed by conversion to float 
+
+  ---------------------
+
+      result = a / b :: float   // OK
+
