@@ -138,24 +138,22 @@ print(prod)
 typedef int Num;
 
 void test1() {
-    const auto a = Vector<Num, 3>{1, 2, 3};
-    const auto b = Vector<Num, 3>{-3, -2, -1};
+    auto a = Vector<Num, 3>{1, 2, 3};
+    auto b = Vector<Num, 3>{-3, -2, -1};
 
     auto f = [](Num i) { return i * i; };
 
-    // Assume add is commutative
-    auto v_tmp = Vector<Num, 3>(b).scale(2).add(a);  // +1
+    auto v_tmp = Vector<Num, 3>(a).scale(2).sub(b); // +1
 
-    // Assume mul is commutative
-    auto v = Vector<Num, 3>(a).scale(2).sub(b).mul(v_tmp); // +1
+    // Reuse b (assuming + is commutative)
+    b.scale(2).add(a).mul(v_tmp);
 
-    // v_tmp can be rebound now
-    v_tmp = Vector<Num, 3>(a).map(f); // +1
+    // a is no longer used after this expr, so we can reuse it as a temporary
+    a.map(f);
 
-    // Assume dot is commutative
-    auto prod = v.dot(v_tmp);
+    auto prod = b.dot(a);
 
-    // 3 temporaries
+    // 1 temporaries
 
     printf("%d\n", prod);
 }
@@ -176,27 +174,28 @@ print(c)
 #endif
 
 void test2() {
-    const auto a = Vector<Num, 3>{1, 2, 3};
-    const auto b = Vector<Num, 3>{-3, -2, -1};
+    auto a = Vector<Num, 3>{1, 2, 3};
+    auto b = Vector<Num, 3>{-3, -2, -1};
 
     auto f = [](Num i) { return i * i; };
 
-    auto b_tmp = Vector<Num, 3>(b).scale(2);            // +1
-    auto v_tmp = Vector<Num, 3>(a).scale(4).sub(b_tmp); // +1
+    // (4*a - 2*b) == 2 * (2*a - b)
+    auto v_tmp = Vector<Num, 3>(a).scale(2).sub(b).scale(2); // +1
 
-    auto a_mapped = Vector<Num, 3>(a).map(f);  // +1
-    v_tmp.mul(a_mapped);
+    // Assume f×a == a*a
+    a.map(f);
+    v_tmp.mul(a);
 
-    // Assume 3*b = 2*b + 1
-    b_tmp.add(b);
+    // a is no longer live after this expression, reuse it
+    a.mul(b).scale(5);
 
-    auto a_tmp = Vector<Num, 3>(a).mul(a).mul(b).scale(5); // +1
-    b_tmp.sub(a_tmp);
+    // same goes for b
+    b.scale(3);
 
-    v_tmp.add(b_tmp); // rename to c to get the result
+    v_tmp.add(b).sub(a); // rename v_tmp to c to get the result
     v_tmp.print();
 
-    // 4 temporaries
+    // 1 temporary
 }
 
 
