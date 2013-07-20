@@ -1,0 +1,15 @@
+// By default, functions have polymorphic parameters that don't ever change
+// their type
+fn id(x) { x }
+id(5)
+assert(typeof(id) == typeof(a -> a))
+assert(typeof(id(5)) == typeof(int))
+assert(typeof(id as (int -> int)) == typeof(int -> int))
+
+fn id_int(x: int) { x }
+assert(typeof(id_int) == typeof(int -> int))
+assert(typeof(id_int(5)) == typeof(int))
+
+fn id_int2(x) { x as int }
+assert(typeof(id_int2) == typeof(int -> int))
+assert(typeof(id_int2(5)) == typeof(int))

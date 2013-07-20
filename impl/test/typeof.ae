@@ -1,0 +1,17 @@
+// The return value of typeof() is implementation-defined
+// Might change in the future
+assert(typeof(int) == int)
+
+assert(typeof(1) == typeof(int))
+assert(typeof(1.) == typeof(float))
+assert(typeof("") == typeof(string))
+assert(typeof(true) == typeof(bool))
+assert(typeof([]) == typeof(array<a>))
+assert(typeof([0]) == typeof(array<int>))
+assert(typeof([0]) == typeof([int]))
+assert(typeof(()) == typeof(tuple))
+assert(typeof((1, "a", true)) == typeof(tuple<int,string,bool>))
+assert(typeof((1, "a", true)) == typeof((int,string,bool)))
+
+fn id(x) { x }
+assert(typeof(id) == typeof(a -> a))

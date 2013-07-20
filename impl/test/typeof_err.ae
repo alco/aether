@@ -1,0 +1,1 @@
+typeof(typeof) // ERROR: can't query the type of a built-in

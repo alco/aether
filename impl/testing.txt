@@ -1,0 +1,18 @@
+Goal: implementation-independent test suite
+
+## Components
+
+1. Checking compiler errors
+  - via shell script
+  - via established error reporting format
+
+2. Checking certain AST properties
+  - via established AST dump format
+
+3. Checking output of programs
+  - via shell script
+
+4. Checking correctness of expression evaluation
+  - via some form of output
+  - by inspecting memory
+  - by checking the generated C code

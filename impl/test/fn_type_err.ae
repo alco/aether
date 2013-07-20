@@ -1,0 +1,8 @@
+fn id(x) { x }
+id as (a -> a)       // ERROR: expected concrete type, found type parameter
+id as (int -> int)
+id as (int -> float) // ERROR: expected int, found float
+
+fn id_int(x: int) { x }
+id_int(5.0)          // ERROR: no conversion from float to int
+

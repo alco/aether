@@ -1,0 +1,11 @@
+// Those are all evaluated to true
+assert(true, "true")
+assert(1, "1")
+assert(13., "13.")
+assert("abc", "\"abc\"")
+
+assert(0, "0")
+assert("", "\"\"")
+
+// This one will fail
+assert(false, "expected to fail")
