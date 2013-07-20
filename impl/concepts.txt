@@ -190,3 +190,99 @@ let perms3 = list_monad(fn() {
 
       result = a / b :: float   // OK
 
+
+Static binding vs Late binding
+==============================
+
+* Must have different syntax
+* Allows for control over code dynamism
+* For things like apply(function_name, [arg1, arg2, ...]) to work,
+  the function that is called needs to be declared as dynamic
+
+#[static-dispatch]
+class StaticObj {
+    void method1();
+    virtual void method2();  // virtual dispatch
+    dynamic void method3();  // dynamic dispatch
+};
+
+- OR -
+
+class StaticObj {
+    void method1();
+    void method2();
+    void method3();
+} @dynamic: method1;
+
+----------------------
+
+#[dynamic-dispatch, all-methods-dynamic]
+class DynamicObj {
+    void method1(); // dynamic dispatch
+    void method2(); // dynamic dispatch
+
+    static void method4(); // static dispatch
+
+private:
+    void method3();  // static dispatch
+};
+
+-----------------------
+
+class Obj {
+dynamic:
+    void method1();
+    void method2();
+
+static:
+    void method3();
+    void method4();
+
+virtual:
+    void method5();
+    void method6();
+
+private:
+    // all static here
+    void method7();
+    void method8();
+};
+
+
+// Static dispatch
+obj.method(1, "string", ptr);
+
+// Virtual dispatch
+ifacevalue.method(...);
+
+// Dynamic dispatch
+[obj method:1, "string", ptr];
+obj..method(1, "string", ptr);
+obj.*.method(1, "string", ptr);
+obj:method(1, "string", ptr);
+obj.method.(1, "string", ptr);
+obj∎method(1, "string", ptr);
+obj‣method(1, "string", ptr);
+obj▻method(1, "string", ptr);
+obj⇒method(1, "string", ptr);
+
+// Dynamic call
+obj⇒call("method", [1, "string", ptr]);
+call(obj, "method", [1, "string", ptr]);
+
+// So the object's class declaration doesn't need to have separation into
+// "static" and "dynamic". Those are just possible optimizations.
+class Obj {
+public:
+    void method1();
+    void method2();
+
+private:
+    void method3();
+    void method4();
+} @static method1;
+
+#[all-methods-static]
+class Obj {
+    // ... only static dispatch with no export of meta-data by the compiler
+};
