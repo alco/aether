@@ -153,7 +153,7 @@ void test1() {
 
     auto prod = b.dot(a);
 
-    // 1 temporaries
+    // 1 temporary
 
     printf("%d\n", prod);
 }
