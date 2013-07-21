@@ -24,8 +24,9 @@ class TokenizerError(Exception):
     pass
 
 class Token(object):
-    def __init__(self, tok):
+    def __init__(self, tok, typ):
         self._tok = tok
+        self._typ = typ
 
     def __str__(self):
         return "<Token '%s'>" % self._tok
@@ -89,20 +90,20 @@ def tokenizer():
                 continue
 
             elif number:
-                tok = Token(number)
+                tok = Token(number, "num")
                 yield tok
 
             elif operator:
-                tok = Token(operator)
+                tok = Token(operator, "op")
                 yield tok
 
             elif name:
-                tok = Token(name)
+                tok = Token(name, "name")
                 yield tok
 
             elif quote:
                 string, pos = extract_string(program, pos)
-                tok = Token(string)
+                tok = Token(string, "str")
                 yield tok
 
             elif newline:
