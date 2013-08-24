@@ -1,0 +1,19 @@
+{
+    let a = 1
+    let b: int = 1
+    let c = 1 as int
+    let d = 1 : int
+    let e = 1 + 2 : int   // == 1 + (2 : int) ?
+    let f = 1 + 2 :: int  // == (1 + 2) : int ?
+    let g = 1 + 2 as int  // == (1 + 2) : int ?
+}
+
+{
+    var a = 1
+    var b: int = 2
+    b += a
+
+    var c = 3. + b:f32
+    c += 3.0f32
+    c += 3.0:f32  // <-- NO
+}
