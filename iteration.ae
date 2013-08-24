@@ -1,0 +1,8 @@
+mapply vector, (+ 5)
+- OR -
+forall i, vector[i] += 5
+- OR -
+u:vec3 = v -> (+ 5)
+- OR -
+var u vec3
+u = v -> (+ 5)
