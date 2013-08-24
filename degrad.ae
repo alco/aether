@@ -1,0 +1,11 @@
+math.pi = 3.14 [radian]
+
+var angle = 40
+angle *= 2
+angle += pi
+
+angle = math.pi deg
+
+sin(angle)  // radians by default
+sin(angle deg)
+sin(90 deg)
