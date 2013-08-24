@@ -149,3 +149,68 @@ func main() {
     // more formal
     routine(1, 2, 3) --> fn(color, d) --> (op1(color), op2(d)) --> add(*) --> result
 }
+
+
+
+*** Functions ans infix ops ***
+
+//  apply + [a b c d]
+//
+//  apply +, [a b c d]
+//
+//  apply '+, [a b c d]
+//
+//  apply('+, [a b c d])
+//
+//  +(a, b, c, d)
+//
+//  '+(a, b, c, d)
+//
+//  (+) [a b c d]
+//
+//  list = [a b c+1+2 d()]
+//  funcall(a b c d)
+//
+//  list = [a, b, c+1+2, d()]
+//  funcall(a, b, c, d)
+//
+//  (funcall a b c d)
+//  (. receiver meth1 meth2)
+//  (-> (funcall a+1 b^2) (funcall c d))
+
+//  a + f(b, c+1) * d - 1
+//
+//  a + f(b c+1) * d - 1
+//
+//  a + (f b c+1) * d - 1
+//
+//  a + (:f b c+1) * d - 1
+//
+//  a + (f: b c+1) * d - 1
+//
+//  (+ a b c d)
+//  (- -a b c d)
+//  (-: -a b c d)
+//  -(-a b c d)
+
+// f❨a b c❩
+// +❨a -❨b c❩ 1+2+3 -1❩
+//
+// +❨a -❨b c❩ (1 + 2 + 3) -1❩
+//
+// +❨a, -❨b, c❩, (1 + 2 + 3), -1❩
+
+// f<(a b c)>
+// f⦅a b c⦆
+// f⦗a b c⦘
+// f⟨a b c⟩
+// f【a b c】
+// f〖a b c〗
+// f｟a b c｠
+// f（a b c）
+// f❮a b c❯
+// f‹a b c›
+// f«a b c»
+// f❪a b c❫
+
+
