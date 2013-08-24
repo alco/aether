@@ -1,0 +1,12 @@
+var t = time.now()
+t -= 20 seconds
+assert(t > time.parse("Jan 1, 1970"))
+assert(t > "Jan 1, 1970"_time)
+
+time.next(t, :month)
+time.next(t, :day)
+
+1 ms
+1 us
+1 ns
+1 picosecond
