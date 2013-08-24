@@ -1,0 +1,132 @@
+var map = {
+    key1: "value",
+    key2: "value",
+}
+
+// The following is an error
+var map = {
+    key1: true,
+    key2: 13,  // mismatched types
+}
+
+// But this is OK
+// consider adding an alias anymap or mapany
+var map = map<string, any>{
+    key1: true,
+    key2: 13,
+}
+
+// Using map literals with user-defined structs
+struct User {
+    name         string
+    email        string
+    public_repos int
+    followers    int
+}
+
+var map = User{
+    name: "Alex",
+    email: "redacted",
+    public_repos: 13,
+    followers: 1,
+}
+
+// Advanced inference
+var map = []User [{
+    name: "Alex",
+    email: "redacted",
+    public_repos: 13,
+    followers: 1,
+  },{
+    name: "Alex",
+    email: "redacted",
+    public_repos: 13,
+    followers: 1,
+}]
+
+// Compared to no inference
+var map = [
+  User{
+    name: "Alex",
+    email: "redacted",
+    public_repos: 13,
+    followers: 1,
+  },
+  User{
+    name: "Alex",
+    email: "redacted",
+    public_repos: 13,
+    followers: 1,
+}]
+
+// Shortened literal initialization
+var user = User{ "Alex", "redacted", 53, 1 }
+var users = []User [{"Alex", "email", 13, 1}, {"Bob", "redacted", 44, 10}]
+// -or-
+var users = [{"Alex", "email", 13, 1}, {"Bob", "redacted", 44, 10}] :: [User]
+// -or-
+var users = [{"Alex", "email", 13, 1}, {"Bob", "redacted", 44, 10}] as [User]
+// -or-
+var users = [{"Alex", "email", 13, 1}, {"Bob", "redacted", 44, 10}] as linkedlist<User>
+// -or-
+var users = [{"Alex", "email", 13, 1}, {"Bob", "redacted", 44, 10}] as linkedlist⟨User⟩
+// -or-
+var users = [{"Alex", "email", 13, 1}, {"Bob", "redacted", 44, 10}] as linkedlist❮User❯  // like
+// -or-
+var users = [{"Alex", "email", 13, 1}, {"Bob", "redacted", 44, 10}] as linkedlist‹User›  // like
+// -or-
+var users = [{"Alex", "email", 13, 1}, {"Bob", "redacted", 44, 10}] as linkedlist«User»  // like
+// -or-
+var users = [{"Alex", "email", 13, 1}, {"Bob", "redacted", 44, 10}] as linkedlist⎩User⎭
+// -or-
+var users = [{"Alex", "email", 13, 1}, {"Bob", "redacted", 44, 10}] as linkedlist⎣User⎦
+// -or-
+var users = [{"Alex", "email", 13, 1}, {"Bob", "redacted", 44, 10}] as linkedlist⎡User⎤
+// -or-
+var users = [{"Alex", "email", 13, 1}, {"Bob", "redacted", 44, 10}] as linkedlist⎧User⎫
+// -or-
+var users = [{"Alex", "email", 13, 1}, {"Bob", "redacted", 44, 10}] as linkedlist⎛User⎞
+// -or-
+var users = [{"Alex", "email", 13, 1}, {"Bob", "redacted", 44, 10}] as linkedlist⎨User⎬  // like
+// -or-
+var users = [{"Alex", "email", 13, 1}, {"Bob", "redacted", 44, 10}] as linkedlist⎝User⎠
+
+// More advanced
+var map = map<string, User>{
+    alex: {"Alex", "email", 13, 1},
+    bob:  {"Bob", "email", 12, 4},
+}
+// -or-
+var map = {
+    alex: {"Alex", "email", 13, 1},
+    bob:  {"Bob", "email", 12, 4},
+} :: map<string, User>
+// -or-
+var map: map<string, User> = {
+    alex: {"Alex", "email", 13, 1},
+    bob:  {"Bob", "email", 12, 4},
+}
+
+// -or-
+var map = { :: string -> User
+    alex: {"Alex", "email", 13, 1},
+    bob:  {"Bob", "email", 12, 4},
+}
+
+// -or-
+var map = {
+    alex: User{"Alex", "email", 13, 1}, // and let the type inference engine deal with the remaining literals
+    bob:  {"Bob", "email", 12, 4},
+}
+
+// -or-
+var map = {
+    alex: User{"Alex", "email", 13, 1},
+    bob:  User{"Bob", "email", 12, 4},
+}
+
+// -or-
+var map = {
+    alex: User{name: "Alex", email: "email", public_repos: 13, followers: 1},
+    bob:  User{name: "Bob",  email: "email", public_repos: 12, followers: 4},
+}
