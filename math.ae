@@ -1,0 +1,113 @@
+// ** Trigonometric functions **
+
+// Compute cosine
+def cos(α) -> α
+// Compute sine
+def sin(α) -> α
+// Compute tangent
+def tan(α) -> α
+// Compute arc cosine
+def acos(α) -> α
+// Compute arc sine
+def asin(α) -> α
+// Compute arc tangent
+def atan(α) -> α
+// Compute arc tangent with two parameters
+def atan2(α) -> α
+
+
+fn sin(x) :: float -> float
+fn sin(x) :: double -> double // OK, compiler inferred type (α -> α)
+
+fn cos(x) :: float -> float
+fn cos(x) :: double -> float // BAD, compiler inferred type so far (α -> α) where α = float
+
+
+deftype τ = float | double
+
+fn tan(x) :: τ -> τ
+fn atan(x) :: τ -> τ
+fn atan2(x) :: τ -> τ
+
+
+// ** Hyperbolic functions **
+
+// Compute hyperbolic cosine
+def cosh(α) -> α
+// Compute hyperbolic sine
+def sinh(α) -> α
+// Compute hyperbolic tangent
+def tanh(α) -> α
+// Compute arc hyperbolic cosine
+def acosh(α) -> α
+// Compute arc hyperbolic sine
+def asinh(α) -> α
+// Compute arc hyperbolic tangent
+def atanh(α) -> α
+
+
+// ** Exponential and logarithmic functions **
+// Compute exponential function
+def exp(α) -> α
+// Get significand and exponent
+def frexp(α) -> ⟨α β⟩ | Integral β
+// Generate value from significand and exponent
+def ldexp(α β) -> α   | Integral β
+// Compute natural logarithm
+def log
+// Compute common logarithm
+def log10
+// Break into fractional and integral parts
+def modf
+// Compute binary exponential function
+def exp2
+// Compute exponential minus one
+def expm1
+// Integer binary logarithm
+def ilogb
+// Compute logarithm plus one
+def log1p
+// Compute binary logarithm
+def log2
+// Compute floating-point base logarithm
+def logb
+// Scale significand using floating-point base exponent
+def scalbn
+// Scale significand using floating-point base exponent (long)
+def scalbln
+
+
+// ** Power functions **
+
+// Raise to power
+def pow(α α) -> α
+// Compute square root
+def sqrt(α) -> α
+// Compute cubic root
+def cbrt(α) -> α
+// Compute hypotenuse
+//def hypot(α α) -> α // should be inferred by the compiler
+
+
+fn sqrt(x) :: τ -> τ
+
+fn hypot(a b)
+(
+    sqrt(a² + b²)
+)
+
+/////
+
+// Linked-in implementations
+for ƒ in [cos sin tan acos asin atan atan2] do
+    for τ in [float double] do
+        fn ƒ(x) :: τ -> τ
+    end
+end
+
+for ƒ in [pow sqrt cbrt hypot] do
+    for τ in [float double] do
+        fn ƒ(x) :: τ -> τ
+    end
+end
+
