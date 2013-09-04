@@ -68,23 +68,28 @@ c1 + c2 == [3,6]
 -c1     == [-1,-2]
 c1 * c2 == [3,8]  /// unexpected behaviour
 
-// solution 1: overload dot product
-c1 • c2 == [-5, 10]
+// solution 1: overload cross product
+c1 ⨯ c2 == [-5, 10]
 
 // solution 2: infix function calls
 c1 `mul` c2 == [-5, 10]
-
 
 ---
 
 In any case, basic arithmetic operators ALWAYS work component-wise.
 + - (unary minus) * / mod rem
 
-The "dot product" operator is overloaded for each type:
-v1 * v2 = v1[i] + v2[i] for all i   // scalar product of vectors
-c1 * c2 = ...                       // product of complex numbers
-m1 * m2 = ...                       // matrix product (non-commutative)
-q1 * q2 = ...                       // quaternion product
+The "cross product" operator is overloaded for each type:
+v1 ⨯ v2 = v1[i] + v2[i] for all i   // scalar product of vectors
+c1 ⨯ c2 = ...                       // product of complex numbers
+m1 ⨯ m2 = ...                       // matrix product (non-commutative)
+q1 ⨯ q2 = ...                       // quaternion product
+
+---
+
+// solution 3: overload normal product but introduce another notation for aggregate arithmetic
+// ++ -- ** // mmod rrem
+// ⊕⊖⊗⊘⊙⊜⊝⧀⧁
 
 ---
 
