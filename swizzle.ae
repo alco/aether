@@ -1,0 +1,27 @@
+var new_vec = vec.rggb
+
+var { red, green, blue } = vec
+var new_vec = vec.{red green green blue}
+var new_vec = vec.{b g r}
+var new_vec = vec.(b g r)
+var new_vec = vec.bgr
+var { :red, :green, :green, :blue } = vec
+
+var new_vec = vec∞bgr
+var new_vec = vec∞{blue green red}
+
+array = array∞{1 0}
+// - OR -
+array∞[1 0] = array
+// - SAME AS -
+array[0], array[1] = array[1], array[0]
+
+» var argb = rgba.{a r g b}
+» var argb: vec = rgba.{a r g b}
+» var argb = rgba.{a r g b} :: vec
+// OR
+» var {.a .r .g .b} = rgba
+» var [.a .r .g .b] = rgba
+» var [.a .r .g .b]: vec = rgba
+// ?
+
