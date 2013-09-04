@@ -1,0 +1,108 @@
+// *** Form 1 ***
+
+type complexf struct {
+    re float
+    im float
+}
+// underlying type
+[float float]
+
+type complexd struct {
+    re double
+    im double
+}
+// underlying type
+[doble double]
+
+
+
+
+
+// *** Form 2 ***
+
+type complexf = { re, im } :: { float, float }
+var c complexf
+c.re  // valid
+c.im  // valid
+c[0]  // invalid
+c[1]  // invalid
+(map (*2) c)  // invalid
+
+c1 * c2  // valid only if (*) is overloaded for complexf
+
+// ***
+
+type complexf = [ re, im ] :: [ float, float ]
+var c complexf
+c.re  // valid
+c.im  // valid
+c[0]  // valid
+c[1]  // valid
+(map (*2) c)  // valid, same as var c' : float[2]; (for i = 0, 1 do c'[i] = c[i]*2 end)
+c = (map (*2) c)  // implicit conversion from stream of floats to complexf
+
+
+---
+
+What this gives us is that we don't need to overload arithmetic on complex
+numbers. We only allow conversion between a complex number and an array, and
+then all operations defined for arrays become available for complex numbers as
+well.
+
+---
+
+// Component-wise ops
+var a = [1,2,3]
+var b = [4,5,6]
+
+a * b == [4,10,18]
+a + b == [5,7,9]
+-a    == [-1,-2,-3]
+
+// ***
+
+var c1: complexf = { 1, 2 }
+var c2: complexf = [ 3, 4 ]
+
+c1 + c2 == [3,6]
+-c1     == [-1,-2]
+c1 * c2 == [3,8]  /// unexpected behaviour
+
+// solution 1: overload dot product
+c1 • c2 == [-5, 10]
+
+// solution 2: infix function calls
+c1 `mul` c2 == [-5, 10]
+
+
+---
+
+In any case, basic arithmetic operators ALWAYS work component-wise.
++ - (unary minus) * / mod rem
+
+The "dot product" operator is overloaded for each type:
+v1 * v2 = v1[i] + v2[i] for all i   // scalar product of vectors
+c1 * c2 = ...                       // product of complex numbers
+m1 * m2 = ...                       // matrix product (non-commutative)
+q1 * q2 = ...                       // quaternion product
+
+---
+
+The story is a little bit different for bigint and decimal.
+
+---
+
+type bigint = {
+    <opaque struct>
+}
+
+var a,b bigint
+a * b  // invalid (unless overloaded by bigint)
+a - b  // invalid (unless overloaded by bigint)
+a + b  // invalid (unless overloaded by bigint)
+a / b  // invalid (unless overloaded by bigint)
+
+// if the operators are overloaded, then aggregate arithmetic works as expected
+
+var a,b,c,d,e,f,g,h bigint
+[a, b, c, d] * [e, f, g, h] == [a*e, b*f, c*g, d*h] // <array of bigints>
