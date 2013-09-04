@@ -89,7 +89,8 @@ q1 ⨯ q2 = ...                       // quaternion product
 
 // solution 3: overload normal product but introduce another notation for aggregate arithmetic
 // ++ -- ** // mmod rrem
-// ⊕⊖⊗⊘⊙⊜⊝⧀⧁
+// ÷
+// ⊕ ⊗ ⊖ ⊘ ⊛ ⊜ ⊙ ⨸ ⊚ ⧀ ⧁
 
 ---
 
