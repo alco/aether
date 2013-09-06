@@ -76,6 +76,64 @@ fn hypot(x y) // :: τ τ -> τ // should be inferred by the compiler
 )
 
 
+///
+
+// !! Final function definition syntax
+
+// 1) fully inferred types
+fn hypot(x y) (
+    sqrt(x² + y²)
+)
+fn hypot(x y) sqrt(x² + y²)  // one-liner
+
+// 2) separate type spec
+:: hypot(τ τ) -> τ
+:: (τ τ) -> τ           // +1
+fn hypot(x y) (
+    sqrt(x² + y²)
+)
+fn hypot(x y) sqrt(x² + y²)  // one-liner
+
+// 3) inline types
+fn hypot(x: τ, y: τ) -> τ (
+    sqrt(x² + y²)
+)
+fn hypot(x: τ, y: τ) -> τ sqrt(x² + y²)  // one-liner
+
+// 4) mixed style (valid, but not recommended) (or, perhaps, allow only one)
+:: hypot(τ τ) -> τ
+:: (τ τ) -> τ           // +1
+fn hypot(x: τ, y: τ) -> τ (
+    sqrt(x² + y²)
+)
+
+/////////////////////////////////////
+
+// !! Final function literal syntax
+
+// 1) fully inferred types
+fn(x y) sqrt(x² + y²)
+
+// 2) inline types
+fn(x: τ, y: τ) -> τ sqrt(x² + y²)
+
+// 3) postfix spec
+fn(x y) sqrt(x² + y²) :: (τ τ) -> τ
+
+// 4) shortcut form
+// vector length
+fn sqrt(%1² + %2² + %3²) :: (τ τ τ) -> τ
+fn sqrt(&1² + &2² + &3²) :: (τ τ τ) -> τ
+fn sqrt(ア² + イ² + ウ²) :: (τ τ τ) -> τ
+fn sqrt(一² + 二² + 三²) :: (τ τ τ) -> τ
+fn sqrt(１² + ２² + ３²) :: (τ τ τ) -> τ
+fn sqrt(①² + ②² + ③²) :: (τ τ τ) -> τ
+fn sqrt(⑴² + ⑵² + ⑶²) :: (τ τ τ) -> τ
+fn sqrt(⓵² + ⓶² + ⓷²) :: (τ τ τ) -> τ
+fn sqrt(Ⅰ² + Ⅱ² + Ⅲ²) :: (τ τ τ) -> τ
+
+////////////////////////////////////
+
 fn hypot(x y) |τ τ -> τ| (
     sqrt(x² + y²)
 )
@@ -84,12 +142,8 @@ fn hypot(x: τ, y: τ) -> τ (
     sqrt(x² + y²)
 )
 
-:: hypot(τ τ) -> τ
-fn hypot(x: τ, y: τ) -> τ (
-    sqrt(x² + y²)
-)
-
-fn(x: τ, y: τ) -> τ (
+:: hypot(τ τ) -> τ           // +1
+fn hypot(x y) (
     sqrt(x² + y²)
 )
 
@@ -105,8 +159,21 @@ fn(x y) (
     sqrt(x² + y²)
 ) :: τ τ -> τ
 
+fn(x: τ, y: τ) -> τ (
+    sqrt(x² + y²)
+)
+
 fn(x y) |τ τ -> τ| sqrt(x² + y²)
 fn(x y) sqrt(x² + y²) :: τ τ -> τ
+
+    fn(x: τ, y: τ) -> τ sqrt(x² + y²)
+    fn(x: τ, y: τ) -> τ ( sqrt(x² + y²) )
+
+fn(x, y τ) τ ( sqrt(x² + y²) )
+|x: τ, y: τ| -> τ sqrt(x² + y²)
+
+fn(x y) :: (τ τ) -> τ sqrt(x² + y²)      // -1
+fn(x y) :: (τ τ) -> τ ( sqrt(x² + y²) )  // -1
 
 
 ///////
