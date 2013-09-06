@@ -1,77 +1,76 @@
-deftype τ = float32 | float64
+type flt = float32 | float64
 
 // The implementations for most of the functions below are linked in
 
 // ** Trigonometric functions **
 
 // Compute cosine
-fn cos(x) :: τ -> τ
+fn cos(x) :: flt -> flt
 // Compute sine
-fn sin(x) :: τ -> τ
+fn sin(x) :: flt -> flt
 // Compute tangent
-fn tan(x) :: τ -> τ
+fn tan(x) :: flt -> flt
 // Compute arc cosine
-fn acos(x) :: τ -> τ
+fn acos(x) :: flt -> flt
 // Compute arc sine
-fn asin(x) :: τ -> τ
+fn asin(x) :: flt -> flt
 // Compute arc tangent
-fn atan(x) :: τ -> τ
+fn atan(x) :: flt -> flt
 // Compute arc tangent with two parameters
-fn atan2(x) :: τ -> τ
+fn atan2(x) :: flt -> flt
 
 
 // ** Hyperbolic functions **
 
 // Compute hyperbolic cosine
-fn cosh(x) :: τ -> τ
+fn cosh(x) :: flt -> flt
 // Compute hyperbolic sine
-fn sinh(x) :: τ -> τ
+fn sinh(x) :: flt -> flt
 // Compute hyperbolic tangent
-fn tanh(x) :: τ -> τ
+fn tanh(x) :: flt -> flt
 // Compute arc hyperbolic cosine
-fn acosh(x) :: τ -> τ
+fn acosh(x) :: flt -> flt
 // Compute arc hyperbolic sine
-fn asinh(x) :: τ -> τ
+fn asinh(x) :: flt -> flt
 // Compute arc hyperbolic tangent
-fn atanh(x) :: τ -> τ
+fn atanh(x) :: flt -> flt
 
 
 // ** Exponential and logarithmic functions **
 
 // Compute exponential function
-fn exp(x) :: τ -> τ
+fn exp(x) :: flt -> flt
 // Compute exponential minus one
-fn expm1(x) :: τ -> τ
+fn expm1(x) :: flt -> flt
 // Get significand and exponent
-fn frexp(x) :: τ -> τ int
+fn frexp(x) :: flt -> (flt int)
 // Generate value from significand and exponent
-fn ldexp(x exp) :: τ int -> τ
+fn ldexp(x exp) :: (flt int) -> flt
 // Break into fractional and integral parts
-fn modf(x) :: τ -> int τ
+fn modf(x) :: flt -> (int flt)
 // Compute floating-point base logarithm
-fn log(base x) :: τ τ -> τ
+fn log(base x) :: (flt flt) -> flt
 // Compute natural logarithm
-fn logn(x) :: τ -> τ
+fn logn(x) :: flt -> flt
 // Compute natural logarithm of (x + 1)
-fn logp1(x) :: τ -> τ
+fn logp1(x) :: flt -> flt
 // Integer binary logarithm
-fn ilogb(x) :: τ -> int
+fn ilogb(x) :: flt -> int
 // Scale significand using floating-point base exponent
-fn scalbn(x n) :: τ int -> τ
-fn scalbn(x n) :: τ longint -> τ
+fn scalbn(x n) :: (flt int) -> flt
+fn scalbn(x n) :: (flt longint) -> flt
 
 
 // ** Power functions **
 
 // Raise to power
-fn pow(base exp) :: τ τ -> τ
+fn pow(base exp) :: (flt flt) -> flt
 // Compute square root
-fn sqrt(x) :: τ -> τ
+fn sqrt(x) :: flt -> flt
 // Compute cubic root
-fn cbrt(x) :: τ -> τ
+fn cbrt(x) :: flt -> flt
 // Compute hypotenuse
-fn hypot(x y) // :: τ τ -> τ // should be inferred by the compiler
-(
+fn hypot(x y) (   // :: (flt flt) -> flt // should be inferred by the compiler
     sqrt(x² + y²)
 )
 
@@ -86,13 +85,11 @@ fn hypot(x y) (
 )
 fn hypot(x y) sqrt(x² + y²)  // one-liner
 
-// 2) separate type spec
-:: hypot(τ τ) -> τ
-:: (τ τ) -> τ           // +1
-fn hypot(x y) (
+// 2) in-between type spec
+fn hypot(x y) :: (τ τ) -> τ (
     sqrt(x² + y²)
 )
-fn hypot(x y) sqrt(x² + y²)  // one-liner
+fn hypot(x y) :: (τ τ) -> τ sqrt(x² + y²) // one-liner
 
 // 3) inline types
 fn hypot(x: τ, y: τ) -> τ (
@@ -100,10 +97,8 @@ fn hypot(x: τ, y: τ) -> τ (
 )
 fn hypot(x: τ, y: τ) -> τ sqrt(x² + y²)  // one-liner
 
-// 4) mixed style (valid, but not recommended) (or, perhaps, allow only one)
-:: hypot(τ τ) -> τ
-:: (τ τ) -> τ           // +1
-fn hypot(x: τ, y: τ) -> τ (
+// !!! no mixed style
+fn hypot(x: τ, y: τ) -> τ :: (τ τ) -> τ ( // invalid
     sqrt(x² + y²)
 )
 
@@ -130,7 +125,11 @@ fn sqrt(１² + ２² + ３²) :: (τ τ τ) -> τ
 fn sqrt(①² + ②² + ③²) :: (τ τ τ) -> τ
 fn sqrt(⑴² + ⑵² + ⑶²) :: (τ τ τ) -> τ
 fn sqrt(⓵² + ⓶² + ⓷²) :: (τ τ τ) -> τ
+fn sqrt(❶² + ❷² + ❸²) :: (τ τ τ) -> τ
+fn sqrt(➀² + ➁² + ➂²) :: (τ τ τ) -> τ
+fn sqrt(➊² + ➋² + ➌²) :: (τ τ τ) -> τ
 fn sqrt(Ⅰ² + Ⅱ² + Ⅲ²) :: (τ τ τ) -> τ
+
 
 ////////////////////////////////////
 

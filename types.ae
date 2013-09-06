@@ -1,0 +1,52 @@
+bool
+int
+float
+
+char
+string
+
+[]int     // dynamic array of ints / slice
+[5]int    // static array of ints / vector
+[4,5]int  // two-dimensional array of ints
+[..2]int  // two-dimensional slice
+[..3]int  // three-dimensional slice
+[4][5]int // array of arrays
+
+int[]     // dynamic array of ints / slice
+int[5]    // static array of ints / vector
+int[4,5]  // two-dimensional array of ints
+int[..2]  // two-dimensional slice
+int[..3]  // three-dimensional slice
+int[4][5] // array of arrays
+
+[int]
+[int][]
+[int][5]
+
+[int][4,5]
+[int][..3]
+
+[[int][5]][4]
+[[int]]
+
+
+[key]value                  // map
+[key1][key2]value           // map of map
+[key1][5]value              // map of arrays
+
+value[key]                  // map
+value[key1][key2]           // map of map
+value[key1][5]              // map of arrays  BAD BAD BAD
+
+map[key:value]              // map
+map[key1:map[key2:value]]   // map of map
+map[key1:[5]value]          // map of arrays
+
+map[key]value               // map
+map[key1]map[key2]value     // map of map
+map[key1][5]value           // map of arrays
+
+{key: value}                // map
+{key1: {key2: value}}       // map of map
+{key1: [5]value}            // map of arrays
+
