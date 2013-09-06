@@ -71,9 +71,43 @@ fn sqrt(x) :: τ -> τ
 fn cbrt(x) :: τ -> τ
 // Compute hypotenuse
 fn hypot(x y) // :: τ τ -> τ // should be inferred by the compiler
-{
+(
     sqrt(x² + y²)
-}
+)
+
+
+fn hypot(x y) |τ τ -> τ| (
+    sqrt(x² + y²)
+)
+
+fn hypot(x: τ, y: τ) -> τ (
+    sqrt(x² + y²)
+)
+
+:: hypot(τ τ) -> τ
+fn hypot(x: τ, y: τ) -> τ (
+    sqrt(x² + y²)
+)
+
+fn(x: τ, y: τ) -> τ (
+    sqrt(x² + y²)
+)
+
+fn(x y) :: (τ, τ) -> τ (
+    sqrt(x² + y²)
+)
+
+fn(x y) |τ τ -> τ| (
+    sqrt(x² + y²)
+)
+
+fn(x y) (
+    sqrt(x² + y²)
+) :: τ τ -> τ
+
+fn(x y) |τ τ -> τ| sqrt(x² + y²)
+fn(x y) sqrt(x² + y²) :: τ τ -> τ
+
 
 ///////
 //
