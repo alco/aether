@@ -70,10 +70,9 @@ fn sqrt(x) :: flt -> flt
 // Compute cubic root
 fn cbrt(x) :: flt -> flt
 // Compute hypotenuse
-fn hypot(x y) (   // :: (flt flt) -> flt // should be inferred by the compiler
+fn hypot(x y) :: (flt flt) -> flt (
     sqrt(x² + y²)
 )
-
 
 ///
 

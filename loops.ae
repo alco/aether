@@ -1,0 +1,27 @@
+0..25 -?>〖result & (1 << ➀) == 0〗,〖byte(➀ + 97)〗
+
+0..25
+-?> |n| if (result & (1 << n) == 0) (
+    :keep, n+97
+)
+
+var str: string
+    = 0..25
+    |filter_map> |n| (
+        if (result & (1 << n) == 0) {:keep, n+97}
+    )
+
+var str = ""
+for n in 0..25 (
+    if result & (1 << n) == 0 (
+        str = append(str, byte(n+97))
+    )
+)
+
+result.bits() -> count ?> |b, _| b == 0 -> |_, i| byte(i + 97) |> ""
+
+result.bits()
+|map>    count
+|filter> |b, _| b == 0
+|map>    |_, i| byte(i + 97)
+|into>   ""
