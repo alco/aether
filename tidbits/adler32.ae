@@ -1,0 +1,9 @@
+:: []byte -> uint32
+fn adler32(bytes) {
+    var a = 1, b = 0
+    for byte in bytes {
+        a = (a + byte) mod MODULO
+        b = (b + a) mod MODULO
+    }
+    (b << 16) | a
+}
